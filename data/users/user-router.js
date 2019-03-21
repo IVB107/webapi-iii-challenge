@@ -5,7 +5,6 @@ const db = require('../helpers/userDb.js');
 const router = express.Router();
 
 
-
 // http request handlers
 
 // GET --> /api/users
@@ -57,7 +56,7 @@ router.post('/', (req, res) => {
   const newUser = req.body;
 
   !newUser.name
-    ? res.status(400).json({ message: "Pleas provide a 'name' property & value" })
+    ? res.status(400).json({ message: "Please provide a 'name' property & value" })
     : db.insert(newUser)
       .then(user => {
         console.log(user);
@@ -75,7 +74,7 @@ router.put('/:id', (req, res) => {
   const changes = req.body;
 
   !changes.name
-    ? res.status(400).json({ message: "Pleas provide a 'name' property & value" })
+    ? res.status(400).json({ message: "Please provide a 'name' property & value" })
     : db.update(id, changes)
       .then(user => {
         return !user
@@ -103,6 +102,5 @@ router.delete('/:id', (req, res) => {
       res.status(500);
     })
 })
-
 
 module.exports = router;

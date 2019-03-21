@@ -54,7 +54,7 @@ router.post('/', (req, res) => {
 
 // PUT --> /api/posts/:id
 router.put('/:id', (req, res) => {
-  const { id } = req.params;
+  const { id } = req.par
   const changes = req.body;
 
   !changes.text
@@ -86,7 +86,6 @@ router.delete('/:id', (req, res) => {
       res.status(500);
     })
 })
-
 
 
 module.exports = router;

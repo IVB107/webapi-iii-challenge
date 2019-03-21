@@ -4,6 +4,23 @@ const db = require('../helpers/userDb.js');
 
 const router = express.Router();
 
+const uppercased = (req, res, next) => {
+  try {
+    if (!req.body.name) {
+      return res.status(400).json({ message: "Please provide a valid name" });
+    }
+    const first = req.body.name[0];
+    first.toUpperCase() !== first
+      ? res.status(400).json({ message: "Invalid: 'name' must begin with a capital letter." })
+      : next();
+  } catch (err) {
+    res.status(500);
+  }
+
+}
+
+// router.use(uppercased);
+
 
 // http request handlers
 
@@ -52,7 +69,7 @@ router.get('/:id/posts', (req, res) => {
 })
 
 // POST --> /api/users
-router.post('/', (req, res) => {
+router.post('/', uppercased, (req, res) => {
   const newUser = req.body;
 
   !newUser.name
@@ -69,7 +86,7 @@ router.post('/', (req, res) => {
 })
 
 // PUT --> /api/users/:id
-router.put('/:id', (req, res) => {
+router.put('/:id', uppercased, (req, res) => {
   const { id } = req.params;
   const changes = req.body;
 

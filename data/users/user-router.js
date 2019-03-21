@@ -39,6 +39,7 @@ router.get('/:id', (req, res) => {
 // GET --> /api/users/:id/posts
 router.get('/:id/posts', (req, res) => {
   const { id } = req.params;
+
   db.getUserPosts(id)
     .then(posts => {
       return !posts
@@ -61,6 +62,25 @@ router.post('/', (req, res) => {
       .then(user => {
         console.log(user);
         res.status(200).json(user);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500);
+      })
+})
+
+// PUT --> /api/users/:id
+router.put('/:id', (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+
+  !changes.name
+    ? res.status(400).json({ message: "Pleas provide a 'name' property & value" })
+    : db.update(id, changes)
+      .then(user => {
+        return !user
+        ? res.status(404).json({ message: 'No user with specified ID' })
+        : res.status(200).json(user);
       })
       .catch(err => {
         console.log(err);
